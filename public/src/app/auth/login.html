@@ -42,7 +42,12 @@
   		<span class="input-group-addon iconbg">
 				<i class="glyphicon glyphicon-lock"></i>
   		</span>
-  		<input id="login-password" type="password" ng-model="vm.password" class="form-control inputbg" name="password" placeholder="password" />
+  		<input type="password" 
+  			id="login-password" 
+  			ng-model="vm.password" 
+  			class="form-control inputbg" 
+  			name="password" 
+  			placeholder="password" />
 		</div>
 		<!-- ALert Box For Wrong Usernme and password combination -->
 		<div class="alert-group" ng-hide="vm.LoginAlert">
@@ -110,7 +115,7 @@
 		<div class="input-group p_photo-group">
 			<input id="p_photo-password" type="file" class="p_photo inputbg" file-model="myFile" name="p_photo">
 		</div>
-		<div id="selectedFile" class="selectedFile" >Upload Profile Image:</div>
+		<div id="selectedFile" class="selectedFile">Upload Profile Image:</div>
 
 		<!-- Button to Register -->
 		<div class="input-group">
@@ -122,7 +127,7 @@
 		<!-- Link for Login -->
 		<div class="signup-box">
 			<h4>
-				Already have an account ? <u><span ng-click="vm.toggle_login()">SignIn</span></u>
+				Already have an account ? <u><span ng-click="vm.signup()">SignIn</span></u>
 			</h4>
 		</div>
 	</div>

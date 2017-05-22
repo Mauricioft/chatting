@@ -5,8 +5,8 @@
     .controller('mainCtrl', mainCtrl);
 
   /* @ngInject */
-  mainCtrl.$inject = ['$scope', '$timeout', '$window', 'mainSrvc'];
-  function mainCtrl($scope, $timeout, $window, mainSrvc) {	  
+  mainCtrl.$inject = ['$scope', '$auth', '$timeout', '$window', 'mainSrvc'];
+  function mainCtrl($scope, $auth, $timeout, $window, mainSrvc) {	  
     var vm = this;  
     console.log('mainCtrl');
     // Inicializacion de variables de entorno
@@ -14,12 +14,10 @@
     vm.LoginAlert=true;
     vm.RegisterAlert=true;
     vm.RegisterBox=true;
-    
-    
     // Las variables de comprobación de nombre de usuario comienzan
     var TypeTimer;                
     var TypingInterval = 1000;
-    
+ 
     // Ocultar show Inicio de sesión y registro 
     vm.toggle_register = () => {
       vm.RegisterBox = !vm.RegisterBox;
@@ -70,13 +68,12 @@
       $timeout.cancel(TypeTimer); 
     };
   
-    vm.register = () => {
+    vm.signup = () => {
       var file_ext=["image/png","image/jpg","image/jpeg","image/gif"];
       var file_type_ok=true;
       var file = vm.myFile;
       var fd = new FormData();
-      console.log('register', file);
-
+      
       if(typeof file != 'undefined'){
         var file_size = Math.round(file.size/1024);
 

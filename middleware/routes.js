@@ -7,20 +7,17 @@ exports.helper = helper;
 
 var method = routes.prototype;
 
-function routes(app,connection,io,sessionInfo){
+function routes(app, connection, io, sessionInfo){
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
 	app.use(bodyParser.json());
 
 	// Creando una matriz de usuarios.
-	var users=[];
-	var uid=""; 
+	var users = [];
+	var uid = ''; 
 
-
-	/*
-		Socket evento comienza
-	*/
+	// Socket evento comienza
 	io.on('connection', (socket) => {
 
 		var uIdSocket=socket.request.session.uid;
@@ -128,15 +125,15 @@ function routes(app,connection,io,sessionInfo){
 
 	// Llegar a hacer Página de inicio
 	app.get('/home', (req, res) => {
-		sessionInfo=req.session;
+		sessionInfo = req.session;
+		console.log('home', sessionInfo);
+		var url = 'home';
 		if(!sessionInfo.uid){
-			res.redirect("/");	
-			res.end();	
-		}else{
-			/*res.redirect('/home#?id='+sessionInfo.uid);*/
-			res.render('home');
-			res.end();
+			console.log('home SI');
+			url = '/';
 		}
+		res.render(url);
+		res.end();
 	});
 
 	// Publicar para manejar la solicitud get_userinfo
@@ -219,7 +216,6 @@ function routes(app,connection,io,sessionInfo){
 			});
 		});
 	});
-	
 }
 
 method.getroutes = () => {

@@ -1,6 +1,6 @@
 'use strict';
 
-/*requiring node modules starts */
+// requiring node modules starts 
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
@@ -11,6 +11,9 @@ var bodyParser = require('body-parser');
 var io = require("socket.io").listen(server);
 var helmet = require('helmet');
 var logger = require('morgan');
+var router = require('./app/http/routes.js');
+
+router(app); 
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -28,7 +31,7 @@ app.use('/static', express.static(__dirname+'/public/src/assets'));
 app.use(helmet());
 app.disable('x-powered-by');
 app.set('trust proxy', 1) // trust first proxy
-
+/*
 var Session= Session({
 	secret:'s3Cur3',
 	saveUninitialized: true,
@@ -43,30 +46,26 @@ app.use(Session);
 
 var sessionInfo;
 
-/* requiring config file starts*/
-// var config =require('./middleware/config.js')(app);
-/* requiring config file ends*/
+// requiring config file starts
+var config =require('./middleware/config.js')(app);
 
-/* requiring config db.js file starts*/
+// requiring config db.js file starts
 var db = require("./middleware/db.js");
 var connection_object = new db();
 var connection = connection_object.connection; // getting conncetion object here 
-/* requiring config db.js file ends*/
 
 
-/* 
-	1. Requiring auth-routes.js file, which takes care of all Login & Registration page operation.
-	2. Passing object of express, Database connection, expressSession and cookieParser.
-	3. auth-routes.js contains the methods and routes for Login and registration page. 
+
+1. Requiring auth-routes.js file, which takes care of all Login & Registration page operation.
+2. Passing object of express, Database connection, expressSession and cookieParser.
+3. auth-routes.js contains the methods and routes for Login and registration page. 
+require('./middleware/auth-routes.js')(app, connection, Session, cookieParser, sessionInfo);
+
+1. Requiring routes.js file, which takes handles the Home page operation.
+2. Passing object of express, Database connection and object of socket.io as 'io'.
+3. routes.js contains the methods and routes for Home page  
+require('./middleware/routes.js')(app, connection, io, Session, cookieParser, sessionInfo);
 */
-require('./middleware/auth-routes.js')(app,connection,Session,cookieParser,sessionInfo);
-/* 
-	1. Requiring routes.js file, which takes handles the Home page operation.
-	2. Passing object of express, Database connection and object of socket.io as 'io'.
-	3. routes.js contains the methods and routes for Home page  
-*/
-require('./middleware/routes.js')(app,connection,io,Session,cookieParser,sessionInfo);
-
 /*
 	Running our application  
 */
