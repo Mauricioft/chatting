@@ -3,7 +3,7 @@
 var express = require("express");
 var path= require('path'); 
  
-var method=config.prototype;
+var method = config.prototype;
 
 function config(app){
 	// Setting .html as the default template extension

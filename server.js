@@ -11,26 +11,15 @@ var bodyParser = require('body-parser');
 var io = require("socket.io").listen(server);
 var helmet = require('helmet');
 var logger = require('morgan');
+var env = require('./config/app.js');
 var router = require('./app/http/routes.js');
+const view = path.join(__dirname, 'resource/views');
+const node_modules = express.static(__dirname+'/node_modules');
+const src = express.static(__dirname+'/public/src/app');
+const assets = express.static(__dirname+'/public/src/assets');
 
+env.setEnvironment(app, node_modules, src, assets, view);
 router(app); 
-
-// all environments
-app.set('port', process.env.PORT || 3000);
-// Telling express where it can find the templates
-app.set('views', path.join(__dirname, 'resource/views'));
-// Setting .html as the default template extension
-app.set('view engine', 'ejs'); 
-app.use(logger('dev'))
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({'extended':'true'}));            
-// set the static files location /public/img will be /img for users
-app.use('/lib', express.static(__dirname+'/node_modules')); 
-app.use('/src', express.static(__dirname+'/public/src/app'));
-app.use('/static', express.static(__dirname+'/public/src/assets'));
-app.use(helmet());
-app.disable('x-powered-by');
-app.set('trust proxy', 1) // trust first proxy
 /*
 var Session= Session({
 	secret:'s3Cur3',
@@ -69,6 +58,6 @@ require('./middleware/routes.js')(app, connection, io, Session, cookieParser, se
 /*
 	Running our application  
 */
-server.listen(app.get('port'), () => {
-  console.log("Listening on http://127.0.0.1:"+app.get('port'));
+server.listen(app.get('port'), function() {
+  console.log("Listening on http://localhost:"+app.get('port'));
 });
