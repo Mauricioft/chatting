@@ -2,7 +2,7 @@
 
 // Requiring mysql node modules 
 var mysql = require('mysql'), 
-		conf = require('./db_config');
+		conf = require('./config');
 
 const options = {
   host: conf.mysql.host,
