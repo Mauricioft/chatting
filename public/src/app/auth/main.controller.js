@@ -8,7 +8,6 @@
   mainCtrl.$inject = ['$scope', '$auth', '$timeout', '$window', 'mainSrvc'];
   function mainCtrl($scope, $auth, $timeout, $window, mainSrvc) {	  
     var vm = this;  
-    console.log('mainCtrl');
     // Inicializacion de variables de entorno
     vm.LoginBox=false; 
     vm.LoginAlert=true;
@@ -30,20 +29,24 @@
     };
     
     // Se inicia la operación de inicio de sesión
-    vm.login = () => {
+    vm.signIn = () => {
       var params = {
         username: vm.username,
         password: vm.password
       };
 
-      mainSrvc.auth(params).then((response) => {
-        if(response.is_logged){
+      $auth.signIn(params).then((response) => {
+        console.log('signIn', response);
+        if(response.success){
           vm.LoginAlert = true;
           $window.location.href = "/home#?id="+response.id;
         }else{
           vm.LoginAlert = false;
         }
-      }); 
+      }).catch((response) => {
+        // Si ha habido errores, llegaremos a esta función
+        console.error('signIn', response);
+      });
     };
     
     // La operación de comprobación del nombre de usuario comienza 
@@ -57,7 +60,7 @@
       }, TypingInterval);
     };
 
-    vm.keydown_uncheck = () => { $timeout.cancel(TypeTimer); }
+    vm.keydown_uncheck = () => $timeout.cancel(TypeTimer); 
    
     vm.blur_uncheck = () => {
       var data={
@@ -68,9 +71,10 @@
       $timeout.cancel(TypeTimer); 
     };
   
-    vm.signup = () => {
-      var file_ext=["image/png","image/jpg","image/jpeg","image/gif"];
-      var file_type_ok=true;
+    vm.signUp = () => {
+      /*
+      var file_ext = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+      var file_type_ok = true;
       var file = vm.myFile;
       var fd = new FormData();
       
@@ -94,18 +98,24 @@
 
       fd.append('username', vm.username);
       fd.append('password', vm.password);
-      
-      mainSrvc.create(fd).then((response) => {
-        if(response.is_logged){
+      */
+      var params = {
+        username: vm.username,
+        password: vm.password
+      };      
+      mainSrvc.signUp(params).then((response) => {
+        console.log('signUp', response);
+        if(response.success){
           vm.LoginAlert = true;
           $window.location.href = "/home#?id="+response.id;
         }else{
           vm.LoginAlert = false;
         }
-      }); 
+      }).catch((response) => {
+        // Si ha habido errores, llegaremos a esta función
+        console.error('signUp', response);
+      });
     };
-    
-
 
     var etc_function = {
       check_username: (data) => {

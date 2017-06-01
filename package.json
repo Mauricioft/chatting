@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Real Time Private Chatting Codershood",
   "author": "Mauricio Flor",
-  "license": "MIT",
+  "license": "GPLv3",
   "private": true,
   "scripts": {
     "start": "nodemon server.js",

@@ -7,13 +7,13 @@
   mainSrvc.$inject = ['$http', '$log', '$q'];
   function mainSrvc($http, $log, $q) { 
     return {
-      auth: auth,
-      create: create,
+      signIn: signIn,
+      signUp: signUp,
       getUsername: getUsername
     }; 
    
-    function auth(params) {
-      return $http.post('/login', params)
+    function signIn(params) {
+      return $http.post('/singin', params)
         .then(getAuthComplete)
         .catch(getAuthFailed);
 
@@ -26,15 +26,18 @@
       }
     }
 
-    function create(fd){
+    function signUp(params){
+      return $http.post("/singup", params)
+      /*
       return $http.post("/register", fd, {
-          transformRequest: angular.identity,
-          headers: {
-            'Content-Type': undefined
-          }
-        })
-        .then(getCreateComplete)
-        .catch(getCreateFailed);
+        transformRequest: angular.identity,
+        headers: {
+          'Content-Type': undefined
+        }
+      })
+      */
+      .then(getCreateComplete)
+      .catch(getCreateFailed);
 
       function getCreateComplete(response) {
         return response.data;

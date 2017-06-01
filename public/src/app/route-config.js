@@ -14,11 +14,14 @@
     //
     $httpProvider.defaults.withCredentials = true;
     $httpProvider.defaults.useXDomain = true;
-    //delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
     // Parametros de configuración
-    $authProvider.loginUrl = CONSTANTS.API_BASE_URL + '/authenticate'; 
+    $authProvider.singInUrl = CONSTANTS.BASE_URL + '/singin'; 
+    $authProvider.singUpUrl = CONSTANTS.BASE_URL + '/singup'; 
     $authProvider.tokenName = "token";
     $authProvider.tokenPrefix = "auth_token",
+ 
     // 
     // For any unmatched url, redirect to /state1 
     $urlRouterProvider.otherwise("/");

@@ -75,7 +75,6 @@ var AuthController = {
 			    res.status(200).send({
 			    	success: true,
 						error: null,
-						is_logged: true,
 		        token: auth.createToken(result.insertId)
 		      });
 				});
